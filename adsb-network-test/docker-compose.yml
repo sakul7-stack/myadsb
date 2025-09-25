@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: adsb_network
+      POSTGRES_USER: adsb_user
+      POSTGRES_PASSWORD: adsb_password
+    ports:
+      - "5432:5432"
+
+  server:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+      - postgres
+    environment:
+      - DATABASE_URL=postgresql://adsb_user:adsb_password@postgres:5432/adsb_network
+      - REDIS_URL=redis://redis:6379
+    volumes:
+      - ./server:/app

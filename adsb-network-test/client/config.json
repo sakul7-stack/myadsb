@@ -1,0 +1,13 @@
+{
+  "server_ip": "localhost",
+  "server_port": 8000,
+  "receiver_info": {
+    "location": "Kathmandu Test",
+    "latitude": 27.7172,
+    "longitude": 85.3240,
+    "altitude": 1400
+  },
+  "client_id": "rpi_receiver_01",
+  "sbs_source_ip": "192.168.1.22",
+  "sbs_source_port": 30003
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ADSB Network Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .ok { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .data-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>ADSB Network - Local Test</h1>
+    
+    <div class="data-section">
+        <h2>System Status</h2>
+        <div id="status"></div>
+        <button onclick="checkStatus()">Check Status</button>
+    </div>
+    
+    <div class="data-section">
+        <h2>Connected Receivers</h2>
+        <div id="receivers"></div>
+        <button onclick="loadReceivers()">Refresh Receivers</button>
+    </div>
+    
+    <div class="data-section">
+        <h2>WebSocket Test</h2>
+        <div id="websocket-status">Not connected</div>
+        <button onclick="testWebSocket()">Test WebSocket</button>
+    </div>
+
+    <script>
+        async function checkStatus() {
+            try {
+                const response = await fetch('/api/status');
+                const data = await response.json();
+                document.getElementById('status').innerHTML = `
+                    <div class="status ${data.database === 'OK' ? 'ok' : 'error'}">Database: ${data.database}</div>
+                    <div class="status ${data.redis === 'OK' ? 'ok' : 'error'}">Redis: ${data.redis}</div>
+                    <div>Timestamp: ${data.timestamp}</div>
+                `;
+            } catch (error) {
+                document.getElementById('status').innerHTML = `<div class="error">Error: ${error}</div>`;
+            }
+        }
+        
+        async function loadReceivers() {
+            try {
+                const response = await fetch('/api/receivers');
+                const data = await response.json();
+                if (data.receivers.length === 0) {
+                    document.getElementById('receivers').innerHTML = 'No receivers connected';
+                } else {
+                    document.getElementById('receivers').innerHTML = data.receivers.map(r => `
+                        <div class="status ok">
+                            ${r.client_id} - ${r.location} - 
+                            ${r.is_online ? 'Online' : 'Offline'} - 
+                            Last seen: ${r.last_seen}
+                        </div>
+                    `).join('');
+                }
+            } catch (error) {
+                document.getElementById('receivers').innerHTML = `<div class="error">Error: ${error}</div>`;
+            }
+        }
+        
+        function testWebSocket() {
+            const ws = new WebSocket('ws://localhost:8000/ws/adsb');
+            ws.onopen = function() {
+                document.getElementById('websocket-status').innerHTML = 'WebSocket connected!';
+                ws.send(JSON.stringify({
+                    type: 'receiver_info',
+                    client_id: 'test-client',
+                    receiver_info: { location: 'Test Location', latitude: 40.7, longitude: -74.0, altitude: 10 }
+                }));
+            };
+            ws.onmessage = function(e) { document.getElementById('websocket-status').innerHTML += '<br>Message: ' + e.data; };
+            ws.onerror = function(e) { document.getElementById('websocket-status').innerHTML = 'WebSocket error: ' + e; };
+        }
+        
+        checkStatus(); loadReceivers();
+    </script>
+</body>
+</html>
