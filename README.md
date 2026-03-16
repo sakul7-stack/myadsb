@@ -1,4 +1,4 @@
-# ADS-B Plane Tracker
+# ADS-B Plane Tracker and Decoding Framework
 
 ADS-B decoder and framework surrounding tracking aircraft and their visualizations.
 
@@ -13,7 +13,7 @@ A **3D Beta visualization** has also been added.
 ## Overview
 
 Compared to other plane tracking services, this website focuses on showing **aircraft detected locally**.  
-This allows us to see planes even when **position data is not available**.
+This allows us to see planes even when **position data is not available** when some planes transmit altitude,speed data.
 
 3D tracking is still in **beta**.
 
