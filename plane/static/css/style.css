@@ -1,0 +1,204 @@
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: #000;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#map {
+    flex: 7;
+    background: #000 !important;
+}
+
+#table-container {
+    flex: 3;
+    overflow-y: auto;
+    padding: 10px;
+    border-top: 1px solid #444;
+    background: #393939;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+thead th {
+    background: #010101;
+    color: #f47200;
+    padding: 8px 6px;
+    text-align: left;
+    font-size: 13px;
+    border: 1px solid #444;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+tbody td,
+tbody th {
+    padding: 6px;
+    border: 1px solid #444;
+    font-size: 12px;
+}
+
+tr.active-plane {
+    background: #002677 !important;
+    color: #ffffff;
+}
+
+tbody tr:hover {
+    background: #004080;
+    cursor: pointer;
+}
+
+.plane-marker {
+    pointer-events: auto;
+}
+
+#plane-photo-popup img {
+    display: block;
+    max-width: 240px;
+    border: 2px solid #f47200;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.7);
+}
+
+#plane-photo-popup {
+    min-width: 260px;
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 1000;
+    background: rgba(0,0,0,0.80);
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.7);
+    display: none;
+    max-width: 280px;
+    color: #fff;
+    font-size: 13px;
+}
+
+#popup-route-info {
+    padding: 8px 0;
+    border-top: 1px solid #444;
+}
+
+#popup-route-info strong {
+    color: #f47200;
+}
+
+.plane-tooltip {
+    background: rgba(10, 10, 20, 0.92);
+    color: #fff;
+    font-size: 13px;
+    padding: 5px 11px;
+    border-radius: 5px;
+    border: 1px solid #f39c12;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.65);
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+
+.leaflet-control-layers,
+.leaflet-control-layers-expanded,
+.custom-layers-control {
+    background: rgba(0, 0, 0, 0.80) !important;
+    backdrop-filter: blur(6px) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
+    border: 1px solid #444 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.7) !important;
+    color: #ffffff !important;
+    margin: 10px !important;
+    padding: 8px 12px !important;
+    font-size: 13px !important;
+}
+
+.leaflet-control-layers-expanded .leaflet-control-layers-list,
+.leaflet-control-layers-expanded .leaflet-control-layers-base,
+.leaflet-control-layers-expanded form,
+.leaflet-control-layers-expanded fieldset {
+    background: transparent !important;
+}
+
+.leaflet-control-layers label,
+.leaflet-control-layers span {
+    color: #ffffff !important;
+    background: transparent !important;
+}
+
+.leaflet-control-layers input[type="radio"] {
+    appearance: auto !important;
+    background: transparent !important;
+    accent-color: #f47200 !important;
+}
+
+.leaflet-control-layers-selector:checked + span {
+    color: #f47200 !important;
+    font-weight: 600 !important;
+}
+
+
+.label {
+    font-size: 9px;          /* smaller */
+    font-weight: 600;
+    color: #dad8d8;
+    text-shadow: 0 0 3px black;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0.85;
+}
+
+.custom-layer-dropdown {
+    background: rgba(0, 0, 0, 0.80) !important;
+    backdrop-filter: blur(6px) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
+    border: 1px solid #444 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.7) !important;
+    padding: 6px 10px !important;
+    margin: 10px !important;
+    width: 160px;
+}
+
+.custom-layer-dropdown select {
+    background: transparent;
+    color: #ffffff;
+    border: none;
+    font-size: 13px;
+    width: 100%;
+    cursor: pointer;
+    outline: none;
+    appearance: none;          
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding: 4px 24px 4px 8px;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 12px auto;
+}
+
+.custom-layer-dropdown select option {
+    background: #222;
+    color: #fff;
+}
+
+td:nth-child(14) {        
+    white-space: nowrap;
+    font-family: system-ui, sans-serif;
+}
+
+td:nth-child(14)::before {  
+    content: " ";
+}

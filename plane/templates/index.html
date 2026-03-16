@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ADS-B Live Tracker</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='plane-icon.png') }}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+
+        body {
+            margin: 0;
+            background: #000;
+        }
+        #map {
+            background: #000 !important;
+        }
+        .radar-mode,
+        .radar-mode .leaflet-container,
+        .radar-mode .leaflet-map-pane,
+        .radar-mode .leaflet-tile-pane,
+        .radar-mode .leaflet-overlay-pane,
+        .radar-mode .leaflet-shadow-pane,
+        .radar-mode .leaflet-marker-pane,
+        .radar-mode .leaflet-tooltip-pane,
+        .radar-mode .leaflet-popup-pane {
+            background-color: #000000 !important;
+            background-image: none !important;
+        }
+        .radar-mode .leaflet-tile {
+            opacity: 0 !important;
+            visibility: hidden !important;
+        }
+        .radar-mode .leaflet-marker-icon,
+        .radar-mode .leaflet-marker-shadow,
+        .radar-mode .leaflet-circle,
+        .radar-mode .leaflet-circle-path {
+            z-index: 9999 !important;
+        }
+    </style>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+    <div id="map"></div>
+    <div id="table-container">
+        <table id="aircraft-table">
+            <thead>
+                <tr>
+                    <th>Hex</th><th>Callsign</th><th>Alt</th><th>Speed</th><th>Track</th>
+                    <th>Lat</th><th>Lon</th><th>Vert Rate</th><th>Squawk</th>
+                    <th>Alert</th><th>Emerg</th><th>SPI</th><th>On Ground</th>
+                    <th>Registration</th><th>Manufacturer</th><th>ICAO Type</th><th>Type</th>
+                    <th>Owner</th><th>Operator</th><th>Last Seen</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
