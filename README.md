@@ -2,7 +2,7 @@
 
 ADS-B decoder and framework surrounding tracking aircraft and their visualizations.
 
-🌐 **Live Website**  
+**Live Website**  
 https://plane.kushal-kc.com.np
 
 Currently the website visualizes aircraft flying around the **Kathmandu Valley**.  
