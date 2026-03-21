@@ -149,7 +149,7 @@ draco.setDecoderPath("https://cdn.jsdelivr.net/npm/three@0.128/examples/js/libs/
 const loader = new THREE.GLTFLoader();
 loader.setDRACOLoader(draco);
 loader.load(
-  "/static/plane.glb",  // change to real path / URL if needed
+  "/static/plane.glb",  
   gltf => {
     planeModel = gltf.scene;
     planeModel.scale.set(1,1,1);
@@ -157,7 +157,7 @@ loader.load(
     planeModel.visible = false;
     scene.add(planeModel);
     console.log("Aircraft model loaded → starting updates");
-    startLiveUpdates();  // ← important: start after model is ready
+    startLiveUpdates();  
   },
   xhr => console.log(`Model load: ${(xhr.loaded/xhr.total*100).toFixed(1)}%`),
   err => console.error("GLTF error", err)

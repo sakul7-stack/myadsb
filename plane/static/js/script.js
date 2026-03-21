@@ -161,12 +161,35 @@ vnktGates.forEach(g =>
 
 
 const airportMarker = L.marker([27.7005727, 85.3511981], { icon: airportIcon }).addTo(map);
-airportMarker.bindPopup(`
-    <b>Tribhuvan International Airport</b><br>
-    <b>ICAO:</b> VNKT <br>
-    <b>IATA:</b> KTM
-`, { closeButton: false });
+airportMarker.bindPopup("Loading airport data...");
+async function updateAirportPopup() {
+    const delay = await fetchairportdata();
 
+    const arr = delay?.arrivals || {};
+    const dep = delay?.departures || {};
+
+    const arrIndex = arr.delay_index ?? '—';
+    const arrAvg   = arr.avg_delay_min ?? '—';
+
+    const depIndex = dep.delay_index ?? '—';
+    const depAvg   = dep.avg_delay_min ?? '—';
+
+    const html = `
+        <b>Tribhuvan International Airport</b><br>
+        <b>ICAO:</b> VNKT <br>
+        <b>IATA:</b> KTM <br><br>
+
+        <b>Arrivals</b><br>
+        Delay Index: ${arrIndex} <br>
+        Avg Delay: ${arrAvg} min <br><br>
+
+        <b>Departures</b><br>
+        Delay Index: ${depIndex} <br>
+        Avg Delay: ${depAvg} min
+    `;
+
+    airportMarker.setPopupContent(html);
+}
 
 function kmhToKnots(kmh) {
     return kmh ? (kmh / 1.852).toFixed(0) : '—';
@@ -553,6 +576,23 @@ function updateMapAndTable(data) {
     }
 }
 
+async function fetchairportdata(){
+    try{
+    const airportdelay='https://plane.kushal-kc.com.np/api/airportdata'
+    const res=await fetch(airportdelay)
+    if (!res.ok) throw new Error('airport data failed')
+    const delaydata=await res.json()
+    return delaydata.delay    
+    }
+    catch (err) {
+        console.warn('airport fetch error:', err);
+            return {
+            arrivals: { avg_delay_min: '-', delay_index: '-' },
+            departures: { avg_delay_min: '-', delay_index: '-' }
+        }
+    }
+}
+
 
 async function fetchWeather(lat, lon) {
     const key = `${lat.toFixed(5)}_${lon.toFixed(5)}`;
@@ -676,3 +716,5 @@ function pollData() {
 
 setInterval(pollData, 1800);
 pollData();   
+setInterval(updateAirportPopup, 60000);
+updateAirportPopup();
