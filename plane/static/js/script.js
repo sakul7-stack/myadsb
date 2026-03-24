@@ -161,7 +161,13 @@ vnktGates.forEach(g =>
 
 
 const airportMarker = L.marker([27.7005727, 85.3511981], { icon: airportIcon }).addTo(map);
-airportMarker.bindPopup("Loading airport data...");
+airportMarker.bindTooltip("Loading airport data...", {
+    permanent: false,
+    direction: 'top',
+    offset: [0, -12],
+    opacity: 0.95,
+    className: 'plane-tooltip'
+});
 async function updateAirportPopup() {
     const delay = await fetchairportdata();
 
@@ -188,7 +194,7 @@ async function updateAirportPopup() {
         Avg Delay: ${depAvg} min
     `;
 
-    airportMarker.setPopupContent(html);
+    airportMarker.setTooltipContent(html);
 }
 
 function kmhToKnots(kmh) {
