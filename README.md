@@ -19,7 +19,7 @@ This allows us to see planes even when **position data is not available** when s
 
 ### Website View
 
-![Plane Tracker Map](images/map.png)
+[![Plane Tracker Map](images/map.png)](https://plane.kushal-kc.com.np)
 
 ---
 
@@ -32,7 +32,7 @@ Future updates will improve performance and rendering quality.
 
 ### 3D Aircraft Demo
 
-![3D Aircraft View](images/3d-demo.gif)
+[![3D Aircraft View](images/3d-demo.gif)](https://plane.kushal-kc.com.np/3d)
 
 ---
 
@@ -42,6 +42,14 @@ Some components of the system are still under development:
 
 - **MLAT** – Under development. Contact if you are willing to host a receiver around Kathmandu Valley.
 - **ADS-B Decoder** – Under development.
+
+---
+
+## Project Structure
+
+- **`plane/`** – the live website (map + 3D view).
+- **`backend/`** – multi-receiver network server and MLAT.
+- **`receiver/`** – client that runs at each receiver site and forwards data to the backend.
 
 ---
 

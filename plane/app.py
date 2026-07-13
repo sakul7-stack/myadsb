@@ -7,6 +7,8 @@ import os
 import socket
 import json
 
+import config
+
 app = Flask(__name__, static_folder='static')
 
 aircraft_data={}
@@ -56,15 +58,15 @@ def update_aircraft(fields):
             'alt':plane['altitude'],
             'timestamp':now.isoformat()
         })
-        if len(plane['positions'])>700:
+        if len(plane['positions'])>config.MAX_POSITIONS:
             plane['positions'].pop(0)
 
 
 def fetch_data_loop():
     global last_fetch_time
-    host = ''
-    port = 30003
-    reconnect_delay = 5
+    host = config.SBS_HOST
+    port = config.SBS_PORT
+    reconnect_delay = config.RECONNECT_DELAY
 
     while True:
         sock = None
@@ -92,12 +94,11 @@ def fetch_data_loop():
                     if parsed:
                         update_aircraft(parsed)
 
-                # Cleanup old aircraft every ~10 seconds (adjust as needed)
                 now = datetime.now()
-                if (now - last_fetch_time).total_seconds() > 10:
+                if (now - last_fetch_time).total_seconds() > config.CLEANUP_INTERVAL:
                     to_remove = [
                         hex_id for hex_id, plane in list(aircraft_data.items())
-                        if now - plane['last_seen'] > timedelta(minutes=2)
+                        if now - plane['last_seen'] > timedelta(seconds=config.AIRCRAFT_TIMEOUT)
                     ]
                     for hex_id in to_remove:
                         del aircraft_data[hex_id]
@@ -122,7 +123,7 @@ def get_aircraft():
 
 @app.route('/api/flags')
 def get_flags():
-    with open('flags.json','r',encoding='utf-8') as f:
+    with open(config.FLAGS_FILE,'r',encoding='utf-8') as f:
         flags=json.load(f)
     return jsonify(flags)
 
@@ -137,4 +138,4 @@ def threed():
     return render_template('3d.html')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, threaded=True,debig=False)
+    app.run(host=config.HOST, port=config.PORT, threaded=True, debug=False)

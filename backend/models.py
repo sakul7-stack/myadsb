@@ -1,8 +1,6 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, Boolean, Text, ARRAY
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, Float, DateTime, Boolean, ARRAY
+from sqlalchemy.orm import declarative_base
 from sqlalchemy.sql import func
-from datetime import datetime
-from typing import Optional, List
 
 Base = declarative_base()
 
